@@ -1,6 +1,7 @@
 // Performance optimization utilities for MyWallet app
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 import 'package:flutter/rendering.dart';
 
 class PerformanceConfig {
@@ -32,12 +33,7 @@ class PerformanceConfig {
   }
 
   // Theme data optimized for performance
-  static ThemeData get optimizedTheme => ThemeData(
-    primarySwatch: Colors.blue,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-    // Use material 3 for better performance
-    useMaterial3: true,
-    // Optimize animations
+  static ThemeData get optimizedTheme => AppTheme.dark.copyWith(
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{
         TargetPlatform.android: CupertinoPageTransitionsBuilder(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseException;
@@ -86,11 +87,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF001F3F),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: const Text('Create Account', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.background,
+        title: const Text('Create Account', style: TextStyle(fontWeight: FontWeight.bold)),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -149,26 +150,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _register,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: AppColors.accent,
+                    foregroundColor: AppColors.accentContrast,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isLoading
                       ? const SizedBox(
                           width: 22,
                           height: 22,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.textPrimary),
                         )
-                      : const Text('Create account', style: TextStyle(color: Colors.white, fontSize: 18)),
+                      : const Text('Create account', style: TextStyle(fontSize: 18)),
                 ),
               ),
               const SizedBox(height: 12),
               Center(
                 child: TextButton(
                   onPressed: _isLoading ? null : () => Navigator.pushNamed(context, '/login'),
-                  child: const Text(
-                    'Already have an account? Log in',
-                    style: TextStyle(color: Colors.white70),
-                  ),
+                  child: const Text('Already have an account? Log in', style: TextStyle(color: AppColors.textSecondary)),
                 ),
               ),
             ],
@@ -189,21 +188,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscure,
-      style: const TextStyle(color: Colors.white),
+  style: const TextStyle(color: AppColors.textPrimary),
       decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.blue[700],
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white70),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.orange),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(12),
-        ),
       ),
       validator: validator,
     );

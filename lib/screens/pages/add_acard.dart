@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 
 class AddAcard extends StatefulWidget {
   final String? cardId; // if provided, we are editing
@@ -92,20 +93,13 @@ class _AddAcardState extends State<AddAcard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900, // Match app theme
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900,
+        backgroundColor: AppColors.background,
         elevation: 0,
-        title: const Text(
-          'Add Card',
-          style: TextStyle(
-            fontWeight: FontWeight.bold, 
-            fontSize: 22, 
-            color: Colors.white
-          ),
-        ),
+        title: const Text('Add Card', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
+  iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -120,24 +114,8 @@ class _AddAcardState extends State<AddAcard> {
                 // Account Number Field
                 TextFormField(
                   controller: _accountNumberController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.blue[700],
-                    labelText: 'Account Number',
-                    labelStyle: const TextStyle(color: Colors.white70),
-                    hintText: '12345678912356',
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.orangeAccent),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  style: const TextStyle(color: AppColors.textPrimary),
+                  decoration: const InputDecoration(labelText: 'Account Number', hintText: '12345678912356'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter the account number';
@@ -150,24 +128,8 @@ class _AddAcardState extends State<AddAcard> {
                 // Card Holder Name Field
                 TextFormField(
                   controller: _cardHolderNameController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.blue[700],
-                    labelText: 'Card Holder Name',
-                    labelStyle: const TextStyle(color: Colors.white70),
-                    hintText: 'John Doe',
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.orangeAccent),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  style: const TextStyle(color: AppColors.textPrimary),
+                  decoration: const InputDecoration(labelText: 'Card Holder Name', hintText: 'John Doe'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter the card holder name';
@@ -180,24 +142,8 @@ class _AddAcardState extends State<AddAcard> {
                 // Phone Number Field
                 TextFormField(
                   controller: _phoneNumberController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.blue[700],
-                    labelText: 'Phone Number',
-                    labelStyle: const TextStyle(color: Colors.white70),
-                    hintText: '+1234567890',
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.orangeAccent),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  style: const TextStyle(color: AppColors.textPrimary),
+                  decoration: const InputDecoration(labelText: 'Phone Number', hintText: '+1234567890'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter the phone number';
@@ -213,24 +159,23 @@ class _AddAcardState extends State<AddAcard> {
                   height: 55,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orangeAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      backgroundColor: AppColors.accent,
+                      foregroundColor: AppColors.accentContrast,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     onPressed: _saving ? null : _submitForm,
                     child: _saving
                         ? const SizedBox(
                             width: 22,
                             height: 22,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.textPrimary),
                           )
                         : Text(
                             widget.cardId == null ? 'Submit' : 'Update',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: AppColors.accentContrast,
                             ),
                           ),
                   ),
@@ -248,11 +193,7 @@ class _AddAcardState extends State<AddAcard> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF3C5AFE), Color(0xFF42A5F5)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: AppColors.surfaceAlt,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -266,19 +207,12 @@ class _AddAcardState extends State<AddAcard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Gega Smith',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const Text('Gega Smith', style: TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 5),
             Text(
               'OverBridge Expert',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.8),
+                color: AppColors.textSecondary,
                 fontSize: 14,
               ),
             ),
@@ -286,33 +220,13 @@ class _AddAcardState extends State<AddAcard> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '4756 •••• •••• 9018',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                Text(
-                  '\$3,469.52',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Text('4756 •••• •••• 9018', style: TextStyle(color: AppColors.textPrimary, fontSize: 16)),
+                Text('\$3,469.52', style: TextStyle(color: AppColors.textPrimary, fontSize: 24, fontWeight: FontWeight.bold)),
               ],
             ),
             const Align(
               alignment: Alignment.bottomRight,
-              child: Text(
-                'VISA',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: Text('VISA', style: TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
             ),
           ],
         ),

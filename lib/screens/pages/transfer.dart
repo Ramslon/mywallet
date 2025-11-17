@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 
-void main() {
-  runApp(const MyApp()); // Start the app
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Money Transfer App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue, // Set the app's theme color
-      ),
-      home: const TransferPage(), // Set the home page to TransferPage
-    );
-  }
-}
+// Refactored to rely on the global application Theme. Removed local MaterialApp
+// wrapper and color literals; now uses semantic colors from AppColors.
 
 class TransferPage extends StatefulWidget {
   const TransferPage({super.key});
@@ -70,19 +55,19 @@ class _TransferPageState extends State<TransferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900, // Set background color
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900, // Match background color
+        backgroundColor: AppColors.surface,
         elevation: 0, // Remove shadow
         title: const Text(
           'Transfer Money',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
+              fontWeight: FontWeight.bold, fontSize: 22, color: AppColors.textPrimary),
         ),
         centerTitle: true, // Center the title
         leading: _currentPage > 0
             ? IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
                 onPressed:
                     _navigateToPreviousPage, // Add back button for pages > 0
               )
@@ -112,30 +97,29 @@ class _TransferPageState extends State<TransferPage> {
           const Text(
             'Transfer money to',
             style: TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 12), // Add spacing
           const Text(
             'Enter name, phone number, or account number',
-            style: TextStyle(fontSize: 16, color: Colors.white70),
+            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 20),
 
           // Recipient Input Field
           TextField(
-            controller: _searchController, // Link to the search controller
-            style: const TextStyle(color: Colors.white), // Text color
-            decoration: _inputDecoration(
-                'Recipient Name / Phone / Account'), // Custom input style
+            controller: _searchController,
+            style: const TextStyle(color: AppColors.textPrimary),
+            decoration: _inputDecoration('Recipient Name / Phone / Account'),
           ),
           const SizedBox(height: 16),
 
           // Amount Input Field
           TextField(
-            controller: _amountController, // Link to the amount controller
-            keyboardType: TextInputType.number, // Show numeric keyboard
-            style: const TextStyle(color: Colors.white), // Text color
-            decoration: _inputDecoration('Enter Amount'), // Custom input style
+            controller: _amountController,
+            keyboardType: TextInputType.number,
+            style: const TextStyle(color: AppColors.textPrimary),
+            decoration: _inputDecoration('Enter Amount'),
           ),
           const SizedBox(height: 20),
 
@@ -172,38 +156,37 @@ class _TransferPageState extends State<TransferPage> {
           const Text(
             'Confirm Transfer',
             style: TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 20),
 
           // Recipient Details
           ListTile(
             leading: const CircleAvatar(
-              backgroundColor: Colors.orangeAccent,
-              child: Icon(Icons.person,
-                  color: Colors.white), // Avatar for recipient
+              backgroundColor: AppColors.accent,
+              child: Icon(Icons.person, color: AppColors.textPrimary),
             ),
             title: Text(
               recipientName,
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: AppColors.textPrimary),
             ),
             subtitle: Text(
               'Amount: $amount',
-              style: const TextStyle(fontSize: 16, color: Colors.white70),
+              style: const TextStyle(fontSize: 16, color: AppColors.textSecondary),
             ),
           ),
           const SizedBox(height: 20),
 
           // PIN Input Field
           TextField(
-            controller: _pinController, // Link to the PIN controller
-            obscureText: true, // Hide PIN input
-            keyboardType: TextInputType.number, // Show numeric keyboard
-            style: const TextStyle(color: Colors.white), // Text color
-            decoration: _inputDecoration('Enter PIN'), // Custom input style
+            controller: _pinController,
+            obscureText: true,
+            keyboardType: TextInputType.number,
+            style: const TextStyle(color: AppColors.textPrimary),
+            decoration: _inputDecoration('Enter PIN'),
           ),
           const SizedBox(height: 20),
 
@@ -235,14 +218,13 @@ class _TransferPageState extends State<TransferPage> {
         mainAxisAlignment:
             MainAxisAlignment.center, // Center content vertically
         children: [
-          const Icon(Icons.check_circle,
-              color: Colors.greenAccent, size: 80), // Success icon
+      const Icon(Icons.check_circle, color: AppColors.success, size: 80),
           const SizedBox(height: 20),
           Text(
-            'Success! $amount sent to $recipientName', // Success message
+            'Success! $amount sent to $recipientName',
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 30),
 
@@ -268,15 +250,16 @@ class _TransferPageState extends State<TransferPage> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Colors.white70), // Label color
+      labelStyle: const TextStyle(color: AppColors.textSecondary),
       filled: true,
-      fillColor: Colors.blue.shade800, // Background color
+      fillColor: AppColors.surfaceAlt,
       border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-            color: Colors.orangeAccent), // Border color when focused
+        borderSide: const BorderSide(color: AppColors.accent),
       ),
     );
   }
@@ -284,10 +267,12 @@ class _TransferPageState extends State<TransferPage> {
   // Custom Button Style
   ButtonStyle _buttonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.orangeAccent, // Button color
+      backgroundColor: AppColors.accent,
+      foregroundColor: AppColors.textPrimary,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12)), // Rounded corners
-      padding: const EdgeInsets.symmetric(vertical: 14), // Button padding
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 14),
     );
   }
 
@@ -295,8 +280,12 @@ class _TransferPageState extends State<TransferPage> {
   void _showErrorSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-          content: Text(message, style: const TextStyle(color: Colors.white)),
-          backgroundColor: Colors.red),
+        content: Text(
+          message,
+          style: const TextStyle(color: AppColors.textPrimary),
+        ),
+        backgroundColor: AppColors.error,
+      ),
     );
   }
 }

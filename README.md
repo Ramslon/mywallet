@@ -121,6 +121,48 @@ Tips:
 - Home dashboard uses a Firestore stream to render profile and balance in real time.
 - Cards are stored at `users/{uid}/cards`. Add/Edit uses the same screen with optional `cardId` and `initial` data.
 
+### Theme System
+
+All UI colors are centralized in `lib/theme/app_theme.dart` via the `AppColors` palette and `AppTheme.dark` `ThemeData`.
+
+Semantic palette (do not hard‑code `Color(...)` or `Colors.*` in widgets):
+
+| Token | Purpose |
+|-------|---------|
+| `AppColors.background` | Scaffold/page backgrounds |
+| `AppColors.surface` | App bars, panels with subtle elevation |
+| `AppColors.surfaceAlt` | Inputs, secondary containers |
+| `AppColors.accent` | Primary interactive elements (buttons, active icons) |
+| `AppColors.textPrimary` | High emphasis text |
+| `AppColors.textSecondary` | Secondary/descriptive text |
+| `AppColors.error` | Error states, destructive SnackBars |
+| `AppColors.success` | Success icons / confirmations |
+
+Usage patterns:
+
+```dart
+// Example input field relying on shared decoration
+TextField(
+	style: const TextStyle(color: AppColors.textPrimary),
+	decoration: const InputDecoration(labelText: 'Amount'),
+)
+
+// Elevated button using accent color
+ElevatedButton(
+	onPressed: submit,
+	style: ElevatedButton.styleFrom(backgroundColor: AppColors.accent),
+	child: const Text('Send'),
+)
+```
+
+Adding a new semantic color:
+1. Define it in `AppColors`.
+2. Reference it through the theme (`AppColors.myNewToken`).
+3. Prefer semantic naming (e.g., `warning`, `info`) over raw color names.
+4. Avoid reintroducing literals—run a grep for `Color(` or `Colors.` before committing.
+
+Benefits: faster large‑scale restyling, consistent dark mode behavior, and fewer one‑off style regressions.
+
 ## License
 
 This project does not specify a license. Consider adding one (e.g., MIT) if you plan to share or open source.

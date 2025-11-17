@@ -1,5 +1,6 @@
 // Importing necessary packages and files.
 import 'package:flutter/material.dart'; // Flutter's material design package for UI components.
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_pocket_wallet/screens/pages/account.dart';
@@ -32,17 +33,14 @@ class MenuItemWidget extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 26,
-              backgroundColor: Colors.blue.shade800,
-              child: Icon(icon, color: Colors.orangeAccent, size: 30),
+              backgroundColor: AppColors.surface,
+              child: Icon(icon, color: AppColors.accent, size: 30),
             ),
             const SizedBox(height: 10),
             Text(
               label,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white70),
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -61,18 +59,16 @@ class Homecontent extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      backgroundColor:
-          Colors.blue.shade900, // Background color matching the login page.
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor:
-            Colors.blue.shade900, // Deep blue color for the app bar.
+        backgroundColor: AppColors.background,
         elevation: 0, // No shadow for the app bar.
         automaticallyImplyLeading:
             false, // Removes the back arrow from the app bar.
         actions: [
           IconButton(
             tooltip: 'Refresh',
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: const Icon(Icons.refresh, color: AppColors.textPrimary),
             onPressed: () async {
               final uid = FirebaseAuth.instance.currentUser?.uid;
               if (uid != null) {
@@ -100,7 +96,7 @@ class Homecontent extends StatelessWidget {
           ),
           IconButton(
             tooltip: 'Back to login',
-            icon: const Icon(Icons.logout, color: Colors.white),
+            icon: const Icon(Icons.logout, color: AppColors.textPrimary),
             onPressed: () async {
               // If a user is signed in, sign them out first
               if (FirebaseAuth.instance.currentUser != null) {
@@ -223,18 +219,8 @@ Widget _upperTextStatic() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '$greeting,',
-          style: const TextStyle(
-              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        const Text(
-          'Guest!',
-          style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.orangeAccent),
-        ),
+        Text('$greeting,', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+        const Text('Guest!', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.accent)),
         const SizedBox(height: 20),
       ],
     ),
@@ -265,20 +251,8 @@ Widget _userHeaderAndCard(String uid) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '$greeting,',
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                Text(
-                  '$greetingName!',
-                  style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orangeAccent),
-                ),
+                Text('$greeting,', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                Text('$greetingName!', style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: AppColors.accent)),
                 const SizedBox(height: 20),
               ],
             ),
@@ -296,8 +270,8 @@ Widget _balanceCard(String title, double balance) {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.blue.shade800,
-        border: Border.all(color: Colors.orangeAccent, width: 2),
+        color: AppColors.surface,
+        border: Border.all(color: AppColors.accent, width: 2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -311,48 +285,21 @@ Widget _balanceCard(String title, double balance) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(title, style: const TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            const Text(
-              'Current balance',
-              style: TextStyle(color: Colors.white70, fontSize: 14),
-            ),
+            const Text('Current balance', style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  '•••• •••• •••• 9018',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
+                const Text('•••• •••• •••• 9018', style: TextStyle(color: AppColors.textPrimary, fontSize: 16)),
                 Text(
                   _formatCurrency(balance),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(color: AppColors.textPrimary, fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-            const Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                'VISA',
-                style: TextStyle(
-                  color: Colors.orangeAccent,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            const Align(alignment: Alignment.bottomRight, child: Text('VISA', style: TextStyle(color: AppColors.accent, fontSize: 18, fontWeight: FontWeight.bold))),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,23 +25,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900, // Deep banking blue
+      // Use global scaffold background from theme
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.pushNamed(context, '/register'),
           tooltip: 'Back to create account',
         ),
-        title: const Text(
-          'Login',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            color: Colors.white,
-          ),
-        ),
+        title: const Text('Login', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         centerTitle: true,
       ),
       body: Center(
@@ -55,19 +50,19 @@ class _LoginPageState extends State<LoginPage> {
                 // Email Input Field
                 TextFormField(
                   controller: emailController,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppColors.textPrimary),
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: AppColors.textSecondary),
                     filled: true,
-                    fillColor: Colors.blue.shade800,
+                    fillColor: AppColors.surface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.orangeAccent),
+                      borderSide: const BorderSide(color: AppColors.accent),
                     ),
                   ),
                   keyboardType: TextInputType.emailAddress,
@@ -87,19 +82,19 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppColors.textPrimary),
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: AppColors.textSecondary),
                     filled: true,
-                    fillColor: Colors.blue.shade800,
+                    fillColor: AppColors.surface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.orangeAccent),
+                      borderSide: const BorderSide(color: AppColors.accent),
                     ),
                   ),
                   validator: (value) {
@@ -144,10 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orangeAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    backgroundColor: AppColors.accent,
+                    foregroundColor: AppColors.accentContrast,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: const Text(
@@ -162,10 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Navigate to the register screen via named route
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: const Text(
-                    'Don’t have an account? Sign Up',
-                    style: TextStyle(color: Colors.white70),
-                  ),
+                  child: const Text('Don’t have an account? Sign Up', style: TextStyle(color: AppColors.textSecondary)),
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_pocket_wallet/screens/pages/add_acard.dart';
+import 'package:my_pocket_wallet/theme/app_theme.dart';
 
 class AccountAndCardPage extends StatefulWidget {
   const AccountAndCardPage({super.key});
@@ -14,14 +15,14 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900, // Consistent background
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900,
+        backgroundColor: AppColors.background,
         elevation: 0,
         title: const Text(
           'Cards & Accounts',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
+              fontWeight: FontWeight.bold, fontSize: 22),
         ),
         centerTitle: true,
       ),
@@ -45,10 +46,7 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
       return Center(
-        child: Text(
-          'Please log in to view your cards.',
-          style: TextStyle(color: Colors.white.withOpacity(0.9)),
-        ),
+        child: const Text('Please log in to view your cards.', style: TextStyle(color: AppColors.textPrimary)),
       );
     }
 
@@ -62,17 +60,11 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
       stream: cardsQuery.snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-                color: Colors.orangeAccent, strokeWidth: 2),
-          );
+          return const Center(child: CircularProgressIndicator(color: AppColors.accent, strokeWidth: 2));
         }
         if (snapshot.hasError) {
           return Center(
-            child: Text(
-              'Failed to load cards',
-              style: TextStyle(color: Colors.redAccent.shade100),
-            ),
+            child: const Text('Failed to load cards', style: TextStyle(color: AppColors.error)),
           );
         }
 
@@ -81,16 +73,12 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.credit_card_off,
-                    size: 48, color: Colors.white.withOpacity(0.6)),
-                const SizedBox(height: 12),
-                Text('No cards yet',
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.9), fontSize: 16)),
-                const SizedBox(height: 8),
-                Text('Tap "Add Card" to create your first card.',
-                    style: TextStyle(color: Colors.white70)),
+              children: const [
+                Icon(Icons.credit_card_off, size: 48, color: AppColors.textSecondary),
+                SizedBox(height: 12),
+                Text('No cards yet', style: TextStyle(color: AppColors.textPrimary, fontSize: 16)),
+                SizedBox(height: 8),
+                Text('Tap "Add Card" to create your first card.', style: TextStyle(color: AppColors.textSecondary)),
               ],
             ),
           );
@@ -114,7 +102,7 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
 
             return Container(
               decoration: BoxDecoration(
-                color: Colors.blue.shade800,
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -126,19 +114,16 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
               child: ListTile(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                leading:
-                    const Icon(Icons.credit_card, color: Colors.orangeAccent),
+                leading: const Icon(Icons.credit_card, color: AppColors.accent),
                 title: Text(holder.isEmpty ? 'Unnamed card' : holder,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 4),
-                    Text(masked, style: const TextStyle(color: Colors.white70)),
+                    Text(masked, style: const TextStyle(color: AppColors.textSecondary)),
                     if (phone.isNotEmpty)
-                      Text(phone,
-                          style: const TextStyle(color: Colors.white54)),
+                      Text(phone, style: const TextStyle(color: AppColors.textSecondary)),
                   ],
                 ),
                 trailing: Wrap(
@@ -146,7 +131,7 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
                   children: [
                     IconButton(
                       tooltip: 'Edit',
-                      icon: const Icon(Icons.edit, color: Colors.white70),
+                      icon: const Icon(Icons.edit, color: AppColors.textSecondary),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -159,7 +144,7 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
                     ),
                     IconButton(
                       tooltip: 'Delete',
-                      icon: const Icon(Icons.delete, color: Colors.redAccent),
+                      icon: const Icon(Icons.delete, color: AppColors.error),
                       onPressed: () => _confirmDelete(context, uid, doc.id),
                     ),
                   ],
@@ -177,20 +162,11 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.blue.shade900,
-        title: const Text('Delete Card', style: TextStyle(color: Colors.white)),
-        content: const Text('Are you sure you want to delete this card?',
-            style: TextStyle(color: Colors.white70)),
+        title: const Text('Delete Card'),
+        content: const Text('Are you sure you want to delete this card?'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child:
-                const Text('Delete', style: TextStyle(color: Colors.redAccent)),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete', style: TextStyle(color: AppColors.error))),
         ],
       ),
     );
@@ -205,16 +181,12 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
           .delete();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Card deleted'),
-            backgroundColor: Colors.orangeAccent),
+        const SnackBar(content: Text('Card deleted')),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Failed to delete card'),
-            backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Failed to delete card'), backgroundColor: AppColors.error),
       );
     }
   }
@@ -222,29 +194,10 @@ class _AccountAndCardPageState extends State<AccountAndCardPage> {
   Widget _buildAddCardButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 55, // Same button size as TransferPage
+      height: 55,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor:
-              Colors.orangeAccent, // Matches TransferPage button color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12), // Same rounded corners
-          ),
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddAcard()),
-          );
-        },
-        child: const Text(
-          'Add Card',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black, // Maintains contrast
-          ),
-        ),
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AddAcard())),
+        child: const Text('Add Card', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
     );
   }

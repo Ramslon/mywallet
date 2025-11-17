@@ -6,6 +6,8 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    // Firebase App Distribution plugin
+    id("com.google.firebase.appdistribution")
 }
 
 android {
@@ -44,4 +46,19 @@ android {
 
 flutter {
     source = "../.."
+}
+
+// Firebase App Distribution configuration for one-command uploads
+firebaseAppDistribution {
+    // Firebase Android App ID (from firebase_options.dart or firebase.json)
+    appId = "1:804074582835:android:cd78ebd076c7b9be45c446"
+    // Upload APK to avoid Play integration requirements for AAB
+    artifactType = "APK"
+    // Tester groups defined in Firebase Console
+    groups = "internal-testers"
+    // Optional: provide release notes or a file path
+    releaseNotes = "Automated upload via Gradle"
+    // Use FIREBASE_TOKEN env var or serviceCredentialsFile for CI when needed
+    // firebaseCliToken = System.getenv("FIREBASE_TOKEN")
+    // serviceCredentialsFile = file("/absolute/path/to/service-account.json").path
 }

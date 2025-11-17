@@ -25,7 +25,7 @@ class MyPocketWallet extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Hides the debug banner in the top-right corner.
       title: 'My Pocket Wallet', // Title of the app.
-      theme: PerformanceConfig.optimizedTheme, // Use optimized theme for better performance.
+  theme: PerformanceConfig.optimizedTheme, // Central unified dark theme.
       initialRoute: '/', // The initial route when the app starts.
       routes: {
         // Define the routes for the app.
